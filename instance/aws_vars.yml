@@ -1,0 +1,12 @@
+region_lb: "ap-southeast-1"
+sg_for_lb: "sg-040402e1934f83539"
+instance_type_lb: "t2.micro"
+img_id_lb: "ami-0ba0ce0c11eb723a1"
+vpc_subnet_id_lb: "subnet-24e1677d"
+
+region: "ap-southeast-1"
+sg_for_webserver: "sg-040402e1934f83539"
+instance_type: "t2.micro"
+webserver_cnt: "3"
+img_id: "ami-0ba0ce0c11eb723a1"
+vpc_subnet_id: "subnet-24e1677d"
