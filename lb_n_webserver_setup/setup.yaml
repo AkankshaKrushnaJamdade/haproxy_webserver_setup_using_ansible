@@ -1,0 +1,42 @@
+- hosts: tag_Name_apache_webserver
+  tasks:
+          - name: Installing httpd package...
+            package:
+                    name: httpd
+                    state: present
+
+          - name: Starting httpd services...
+            service:
+                    name: httpd
+                    state: started
+                    enabled: yes
+
+          - name: Copying webpages to Document Root...
+            copy:
+                    src: index.html
+                    dest: /var/www/html/index.html
+
+- hosts: tag_Name_lb
+  tasks:
+          - include_vars: vars.yml
+          - name: Installing haproxy software...
+            package:
+                    name: haproxy
+                    state: present
+
+          - name: Starting lb service...
+            service:
+                    name: haproxy
+                    state: started
+
+          - name: Copying config file lb...
+            template:
+                    src: haproxy.j2
+                    dest: /etc/haproxy/haproxy.cfg
+            notify: lb svc restart
+
+  handlers:
+          - name: lb svc restart
+            service:
+                    name: haproxy
+                    state: restarted
