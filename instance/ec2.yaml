@@ -1,0 +1,33 @@
+- hosts: localhost
+  tasks:
+          - include_vars: aws_cred.yml
+          - include_vars: aws_vars.yml
+          - name: Launching ec2 instance for lb...
+            ec2:
+                    aws_access_key: "{{ access_key }}"
+                    aws_secret_key: "{{ secret_key }}"
+                    region: "{{ region_lb }}"
+                    group_id: "{{ sg_for_lb }}"
+                    key_name: my_key
+                    instance_type: "{{ instance_type_lb }}"
+                    image: "{{ img_id_lb }}"
+                    instance_tags:
+                            Name: lb
+                    count: 1
+                    vpc_subnet_id: "{{ vpc_subnet_id_lb }}"
+                    assign_public_ip: yes
+
+          - name: Launching ec2 instance/s for webserver...
+            ec2:
+                    aws_access_key: "{{ access_key }}"
+                    aws_secret_key: "{{ secret_key }}"
+                    region: "{{ region }}"
+                    group_id: "{{ sg_for_webserver }}"
+                    key_name: my_key
+                    instance_type: "{{ instance_type }}"
+                    image: "{{ img_id }}"
+                    instance_tags:
+                            Name: apache_webserver
+                    count: "{{ webserver_cnt }}"
+                    vpc_subnet_id: "{{ vpc_subnet_id }}"
+                    assign_public_ip: yes
